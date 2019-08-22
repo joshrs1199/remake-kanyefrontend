@@ -1,26 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import AlbumContainer from './containers/AlbumContainer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  
+  state = {
+    albums: []
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:3000/albums')
+    .then((response) => {
+      return response.json();
+    }).then((allAlbums) => {
+      this.setState({
+        albums: allAlbums
+      })
+    })
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <AlbumContainer albums={this.state.albums}/>
+      </div>
+    )
+  }
 }
 
 export default App;
